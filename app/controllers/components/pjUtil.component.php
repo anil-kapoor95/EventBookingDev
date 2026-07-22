@@ -176,7 +176,35 @@ class pjUtil extends pjToolkit
 	{
 		return chr(rand(65,90)) . chr(rand(65,90)) . time();
 	}
-	
+
+	/**
+	 * Per-line discount, ported verbatim (event-scoped) from the Shopping Cart
+	 * voucher module. Percent => amount * discount / 100, Amount => flat discount.
+	 * Respects the voucher's event scope ('all' or a list of event ids).
+	 */
+	static public function getDiscount($amount, $event_id, $voucher=NULL)
+	{
+		$discount = 0;
+
+		if (!is_null($voucher) && isset($voucher) && !empty($voucher) &&
+			($voucher['voucher_events'] == 'all' || (is_array($voucher['voucher_events']) && in_array($event_id, $voucher['voucher_events'])))
+		)
+		{
+			$voucher_discount = $voucher['voucher_discount'];
+			switch ($voucher['voucher_type'])
+			{
+				case 'percent':
+					$discount = ($amount * $voucher_discount) / 100;
+					break;
+				case 'amount':
+					$discount = $voucher_discount;
+					break;
+			}
+		}
+
+		return $discount;
+	}
+
 	static public function ordinalDate($recurring_ordinal, $day_of_week, $month_year)    
 	{
 	    $first_date = date("j", strtotime($day_of_week . " " . $month_year) );

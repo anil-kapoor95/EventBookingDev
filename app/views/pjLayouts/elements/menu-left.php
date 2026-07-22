@@ -43,6 +43,14 @@ $hasAccessScriptEventsIndex       = pjAuth::factory('pjAdminEvents', 'pjActionIn
 $hasAccessScriptCategories  = pjAuth::factory('pjAdminCategories')->hasAccess();
 $hasAccessScriptCategoriesIndex  = pjAuth::factory('pjAdminCategories', 'pjActionIndex')->hasAccess();
 
+// Vouchers
+$isScriptVouchersController = in_array($controller_name, array('pjAdminVouchers'));
+$isScriptVouchersIndex      = $isScriptVouchersController && in_array($action_name, array('pjActionIndex', 'pjActionCreate', 'pjActionUpdate'));
+
+// Permissions - Vouchers
+$hasAccessScriptVouchers        = pjAuth::factory('pjAdminVouchers')->hasAccess();
+$hasAccessScriptVouchersIndex   = pjAuth::factory('pjAdminVouchers', 'pjActionIndex')->hasAccess();
+
 
 // Permissions - Payments
 $hasAccessScriptPayments = pjAuth::factory('pjPayments', 'pjActionIndex')->hasAccess();
@@ -85,6 +93,12 @@ $hasAccessScriptOptionsBookingForm      = pjAuth::factory('pjAdminOptions', 'pjA
 <?php if ($hasAccessScriptCategories): ?>
     <li<?php echo $isScriptCategoriesIndex ? ' class="active"' : NULL; ?>>
         <a href="<?php echo $_SERVER['PHP_SELF']; ?>?controller=pjAdminCategories&amp;action=pjActionIndex"><i class="fa fa-list-alt"></i> <span class="nav-label"><?php __('menuCategories');?></span></a>
+    </li>
+<?php endif; ?>
+
+<?php if ($hasAccessScriptVouchersIndex): ?>
+    <li<?php echo $isScriptVouchersIndex ? ' class="active"' : NULL; ?>>
+        <a href="<?php echo $_SERVER['PHP_SELF']; ?>?controller=pjAdminVouchers&amp;action=pjActionIndex"><i class="fa fa-tags"></i> <span class="nav-label"><?php __('menuVouchers');?></span></a>
     </li>
 <?php endif; ?>
 

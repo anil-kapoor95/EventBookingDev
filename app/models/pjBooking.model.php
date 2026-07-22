@@ -7,9 +7,9 @@ if (!defined("ROOT_PATH"))
 class pjBookingModel extends pjAppModel
 {
 	protected $primaryKey = 'id';
-	
+
 	protected $table = 'bookings';
-	
+
 	protected $schema = array(
 		array('name' => 'id', 'type' => 'int', 'default' => ':NULL'),
 		array('name' => 'unique_id', 'type' => 'varchar', 'default' => ':NULL'),
@@ -17,6 +17,8 @@ class pjBookingModel extends pjAppModel
 		array('name' => 'booking_total', 'type' => 'decimal', 'default' => ':NULL'),
 		array('name' => 'booking_deposit', 'type' => 'decimal', 'default' => ':NULL'),
 		array('name' => 'booking_tax', 'type' => 'decimal', 'default' => ':NULL'),
+		array('name' => 'booking_discount', 'type' => 'decimal', 'default' => ':NULL'),
+		array('name' => 'voucher_code', 'type' => 'varchar', 'default' => ':NULL'),
 		array('name' => 'booking_status', 'type' => 'enum', 'default' => ':NULL'),
 		array('name' => 'payment_method', 'type' => 'varchar', 'default' => ':NULL'),
 		array('name' => 'payment_option', 'type' => 'enum', 'default' => ':NULL'),
@@ -42,9 +44,9 @@ class pjBookingModel extends pjAppModel
 		array('name' => 'created', 'type' => 'datetime', 'default' => ':NOW()'),
 		array('name' => 'modified', 'type' => 'datetime', 'default' => ':NULL')
 	);
-	
+
 	public $i18n = array('name');
-	
+
 	public static function factory($attr=array())
 	{
 		return new pjBookingModel($attr);

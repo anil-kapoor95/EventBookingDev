@@ -7,8 +7,10 @@ if (!defined("ROOT_PATH"))
 class pjFront extends pjAppController
 {
     public $defaultCaptcha = 'pjEBCalendar_Captcha';
-    
+
     public $defaultLocale = 'pjEBCalendar_LocaleId';
+
+    public $defaultDiscountCode = 'pjEBCalendar_DiscountCode';
     
     public function __construct()
     {

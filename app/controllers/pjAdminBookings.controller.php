@@ -511,10 +511,67 @@ class pjAdminBookings extends pjAdmin
 		$this->appendJs('pjAdminBookings.js');
 	}	
 	
+	/**
+	 * Validates a discount code for the admin booking form and returns the
+	 * computed discount for the selected event + ticket quantities. Reuses the
+	 * same rules as the public flow (purchase-time validity, event scope).
+	 */
+	public function pjActionApplyDiscount()
+	{
+		$this->setAjax(true);
+
+		if (!$this->isXHR())
+		{
+			self::jsonResponse(array('status' => 'ERR', 'code' => 100, 'text' => 'Missing headers.'));
+		}
+		if (!pjAuth::factory('pjAdminBookings', 'pjActionCreate')->hasAccess() && !pjAuth::factory('pjAdminBookings', 'pjActionUpdate')->hasAccess())
+		{
+			self::jsonResponse(array('status' => 'ERR', 'code' => 102, 'text' => 'Access denied.'));
+		}
+		if (!$this->_post->check('code') || $this->_post->toString('code') == '')
+		{
+			self::jsonResponse(array('status' => 'ERR', 'code' => 104, 'text' => __('front_voucher_missing', true)));
+		}
+
+		$event_id = $this->_post->toInt('event_id');
+		if ($event_id <= 0)
+		{
+			self::jsonResponse(array('status' => 'ERR', 'code' => 105, 'text' => __('front_voucher_not_for_event', true)));
+		}
+
+		$pre = array();
+		list($pre['date'], $pre['hour'], $pre['minute']) = explode(",", date("Y-m-d,H,i"));
+
+		$response = pjAppController::getDiscount(array_merge($this->_post->raw(), $pre), $this->option_arr);
+		if ($response['status'] == 'OK')
+		{
+			$events = $response['voucher_events'];
+			$applies = empty($events[0]) || in_array($event_id, (array) $events);
+			if ($applies)
+			{
+				$voucher = array(
+					'voucher_code' => $response['voucher_code'],
+					'voucher_type' => $response['voucher_type'],
+					'voucher_apply' => $response['voucher_apply'],
+					'voucher_discount' => $response['voucher_discount'],
+					'voucher_events' => empty($events[0]) ? 'all' : $events
+				);
+				$price_arr = pjPriceModel::factory()->where('event_id', $event_id)->findAll()->getData();
+				$discount = pjAppController::calcBookingDiscount($voucher, $price_arr, $this->_post->raw(), $event_id);
+				self::jsonResponse(array('status' => 'OK', 'code' => 200, 'text' => __('front_voucher_applied', true), 'discount' => round($discount, 2), 'voucher_code' => $voucher['voucher_code']));
+			}
+			else
+			{
+				self::jsonResponse(array('status' => 'ERR', 'code' => 106, 'text' => __('front_voucher_not_for_event', true)));
+			}
+		}
+		self::jsonResponse($response);
+	}
+
 	public function pjActionGetPrices()
 	{
 		$this->setAjax(true);
-		
+
 		$event_id = $this->_get->toInt('id');
 		
 		$price_arr = pjPriceModel::factory()

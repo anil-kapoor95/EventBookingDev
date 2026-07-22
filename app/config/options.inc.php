@@ -74,12 +74,14 @@ $CONFIG['role_permissions_editor'] = array(
 	'pjAdminCategories*',
 	'pjAdminBookings*',
 	'pjAdminEvents*',
+	'pjAdminVouchers*',
 );
 $CONFIG['listing_actions'] = array(
     'pjAdminOptions' => 'pjAdminOptions_pjActionUpdate',
     'pjAdminBookings_pjActionIndex' => 'pjAdminBookings_pjActionGetBooking',
     'pjAdminCategories_pjActionIndex' => 'pjAdminCategories_pjActionGetCategory',
 	'pjAdminEvents_pjActionIndex' => 'pjAdminEvents_pjActionGetEvent',
+	'pjAdminVouchers_pjActionIndex' => 'pjAdminVouchers_pjActionGetVoucher',
 );
 
 $CONFIG['permission_items_order'] = array(
@@ -87,6 +89,7 @@ $CONFIG['permission_items_order'] = array(
     'pjAdminBookings',
     'pjAdminEvents',
 	'pjAdminCategories',
+	'pjAdminVouchers',
 	'pjAdminOptions',
 	'pjBaseUsers_pjActionProfile',
     'pjAdminOptions_pjActionPreview',

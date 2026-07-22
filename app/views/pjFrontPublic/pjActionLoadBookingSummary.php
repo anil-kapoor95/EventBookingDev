@@ -74,6 +74,17 @@ if (isset($tpl['status']) && $tpl['status'] == 'IP_BLOCKED') {
 						<dt class="title"><?php __('front_label_price'); ?></dt>
 						<dd class="content"><?php echo pjCurrency::formatPrice($tpl['amount']['price']); ?></dd>
 					</dl>
+					<?php
+					if (isset($tpl['amount']['discount']) && (float) $tpl['amount']['discount'] > 0)
+					{
+						?>
+						<dl class="dl-horizontal">
+							<dt class="title"><?php __('front_label_discount'); ?><?php echo !empty($tpl['voucher']['voucher_code']) ? ' (' . pjSanitize::html($tpl['voucher']['voucher_code']) . ')' : ''; ?></dt>
+							<dd class="content">-<?php echo pjCurrency::formatPrice($tpl['amount']['discount']); ?></dd>
+						</dl>
+						<?php
+					}
+					?>
 					<dl class="dl-horizontal">
 						<dt class="title"><?php __('front_label_tax'); ?></dt>
 						<dd class="content"><?php echo pjCurrency::formatPrice($tpl['amount']['tax']); ?></dd>

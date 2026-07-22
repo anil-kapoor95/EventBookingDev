@@ -292,9 +292,7 @@ class pjFrontPublic extends pjFront
 			$this->set('status', 'IP_BLOCKED');
 		} else {
 			$event_id = $this->_get->toInt('event_id');
-		
-			$amount_arr = $this->calcPrice($this->_post->toFloat('total_price'), $this->option_arr);
-		
+
 			$arr = pjEventModel::factory()
 				->select("t1.*, t2.content as category, t3.content as title, t4.content as event_description, t5.content as event_location")
 				->join('pjMultiLang', "t2.foreign_id = t1.category_id AND t2.model = 'pjEvent' AND t2.locale = '".$this->getLocaleId()."' AND t2.field = 'name'", 'left')
@@ -311,11 +309,17 @@ class pjFrontPublic extends pjFront
 				->where('event_id', $event_id)
 				->findAll()
 				->getData();
-		
+
+			// Apply the discount code (if any) using the exact Shopping Cart math
+			$voucher = (isset($_SESSION[$this->defaultDiscountCode]) && !empty($_SESSION[$this->defaultDiscountCode])) ? $_SESSION[$this->defaultDiscountCode] : null;
+			$discount = pjAppController::calcBookingDiscount($voucher, $price_arr, $this->_post->raw(), $event_id);
+			$amount_arr = $this->calcPrice($this->_post->toFloat('total_price'), $this->option_arr, $discount);
+
 			$this->set('arr', $arr);
 			$this->set('price_arr', $price_arr);
 			$this->set('amount', $amount_arr);
-			
+			$this->set('voucher', $voucher);
+
 			$this->set('country_arr', pjBaseCountryModel::factory()
 				->select('t1.*, t2.content AS country_title')
 				->join('pjMultiLang', "t2.model='pjBaseCountry' AND t2.foreign_id=t1.id AND t2.field='name' AND t2.locale='".$this->getLocaleId()."'", 'left outer')

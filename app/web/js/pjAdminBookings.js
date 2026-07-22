@@ -38,8 +38,11 @@ var jQuery = jQuery || $.noConflict();
 				total_price += parseFloat($(this).val(), 10) * parseFloat($(this).attr('lang'));
 				customer_people += parseFloat($(this).val(), 10);
 			});
+			var discount = parseFloat($('#booking_discount').val());
+			if (isNaN(discount)) { discount = 0; }
 			tax = (total_price * parseFloat(myLabel.tax, 10) ) / 100;
-			total = total_price + tax;
+			total = total_price - discount + tax;
+			if (total < 0) { total = 0; }
 			deposit = (total * parseFloat(myLabel.deposit, 10) ) / 100;
 			$('#booking_price').val(total_price.toFixed(2));
 			$('#booking_total').val(total.toFixed(2));
@@ -196,7 +199,43 @@ var jQuery = jQuery || $.noConflict();
 				calculatePrice();
 			});
 		}
-		
+
+		$(document).on("click", ".pjAdminApplyCode", function (e) {
+			if (e && e.preventDefault) { e.preventDefault(); }
+			var code = $.trim($('#voucher_code_input').val()),
+				event_id = $('#event_id').val(),
+				$msg = $('#voucher_msg');
+			if (code === '') { return false; }
+			if (!event_id) {
+				$msg.css('color', '#a94442').html(myLabel.choose).show();
+				return false;
+			}
+			var data = { code: code, event_id: event_id };
+			$('.pj-price').each(function () {
+				data[$(this).attr('name')] = $(this).val();
+			});
+			$.ajax({
+				type: "POST",
+				dataType: "json",
+				url: "index.php?controller=pjAdminBookings&action=pjActionApplyDiscount",
+				data: data,
+				success: function (res) {
+					if (res && res.status === 'OK') {
+						$('#booking_discount').val(parseFloat(res.discount).toFixed(2));
+						$('#voucher_code').val(res.voucher_code);
+						$msg.css('color', '#1ab394').html(res.text).show();
+						calculatePrice();
+					} else {
+						$('#booking_discount').val('0.00');
+						$('#voucher_code').val('');
+						$msg.css('color', '#a94442').html(res && res.text ? res.text : '').show();
+						calculatePrice();
+					}
+				}
+			});
+			return false;
+		});
+
 		if ($("#grid").length > 0 && datagrid) {
 			function formatStatus(val, obj) {
 				if(val == 'confirmed')

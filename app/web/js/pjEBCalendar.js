@@ -111,7 +111,8 @@
 			this.date = null;
 			this.postData = null;
 			this.event_id = null;
-			
+			this.voucher = null;
+
 			return this;
 		},
 		disableButtons: function () {
@@ -299,6 +300,41 @@
 					pjQ.$('#pjEbcTicketValidate_' + self.opts.index).val(rand).valid();
 				}
 				self.calPrices(1);
+			}).on("click.ebc", ".pjEbcApplyCode", function (e) {
+				if (e && e.preventDefault) { e.preventDefault(); }
+				var idx = self.opts.index,
+					code = pjQ.$.trim(pjQ.$('#pjEbcVoucherCode_' + idx).val()),
+					$msg = pjQ.$('#pjEbcVoucherMsg_' + idx);
+				if (code === '') { return false; }
+				pjQ.$.post([self.opts.folder, "index.php?controller=pjFrontEnd&action=pjActionApplyCode&session_id=" + self.opts.session_id].join(""), { code: code, event_id: self.event_id }).done(function (data) {
+					var json = (typeof data === 'string') ? pjQ.$.parseJSON(data) : data;
+					if (json && (json.status === 'OK' || json.code === 200) && json.voucher) {
+						self.voucher = json.voucher;
+						$msg.removeClass('pjEbcError').html(json.text || '').show();
+						pjQ.$('.pjEbcRemoveCode').show();
+					} else {
+						self.voucher = null;
+						$msg.addClass('pjEbcError').html((json && json.text) ? json.text : '').show();
+						pjQ.$('.pjEbcRemoveCode').hide();
+					}
+					self.calPrices(1);
+				}).fail(function () {
+					log("Deferred is rejected");
+				});
+				return false;
+			}).on("click.ebc", ".pjEbcRemoveCode", function (e) {
+				if (e && e.preventDefault) { e.preventDefault(); }
+				var idx = self.opts.index;
+				pjQ.$.post([self.opts.folder, "index.php?controller=pjFrontEnd&action=pjActionRemoveCode&session_id=" + self.opts.session_id].join(""), {}).done(function () {
+					self.voucher = null;
+					pjQ.$('#pjEbcVoucherCode_' + idx).val('');
+					pjQ.$('#pjEbcVoucherMsg_' + idx).hide().html('');
+					pjQ.$('.pjEbcRemoveCode').hide();
+					self.calPrices(1);
+				}).fail(function () {
+					log("Deferred is rejected");
+				});
+				return false;
 			}).on("click.ebc", ".pjEbcBackToList", function (e) {
 				if (e && e.preventDefault) {
 					e.preventDefault();
@@ -750,32 +786,50 @@
 				$tax_label = pjQ.$('#pjEbcTax_' + this.opts.index),
 				$total_price_label = pjQ.$('#pjEbcTotalPrice_' + this.opts.index),
 				$deposit_label = pjQ.$('#pjEbcDeposit_' + this.opts.index),
+				$discount_label = pjQ.$('#pjEbcDiscount_' + this.opts.index),
+				discount = 0,
 				$frmBookingForm = pjQ.$('#pjEbcBookingForm_' + this.opts.index);
-			
+
 			pjQ.$( ".pjEbcPriceSelector" ).each(function( index ) {
 				var unit_price = pjQ.$(this).data('price'),
 					cnt = pjQ.$(this).val();
 				price += parseFloat(unit_price) * parseInt(cnt, 10);
 			});
-			
+
 			if(price <= 0)
 			{
 				$price_label.html("");
 				$tax_label.html("");
 				$total_price_label.html("");
 				$deposit_label.html("");
+				$discount_label.html("");
 				pjQ.$('.pjEbcPriceRow').hide();
 				$frmBookingForm.find("input[name='total_price']").val("");
 				$frmBookingForm.find("select[name='payment_method']").removeClass('required');
 			}else{
+				discount = self.calDiscount(price);
 				tax = parseFloat(self.opts.tax) * price / 100;
-				total_price = price + tax;
+				total_price = price - discount + tax;
+				if(total_price < 0)
+				{
+					total_price = 0;
+				}
 				deposit = parseFloat(self.opts.deposit) * total_price / 100;
 				$price_label.html(self.formatCurrency(price, self.opts.currency));
 				$tax_label.html(self.formatCurrency(tax, self.opts.currency));
 				$total_price_label.html(self.formatCurrency(total_price, self.opts.currency));
 				$deposit_label.html(self.formatCurrency(deposit, self.opts.currency));
 				pjQ.$('.pjEbcPriceRow').show();
+				if(discount > 0)
+				{
+					$discount_label.html("-" + self.formatCurrency(discount, self.opts.currency));
+					pjQ.$('.pjEbcDiscountRow').show();
+				}
+				else
+				{
+					$discount_label.html("");
+					pjQ.$('.pjEbcDiscountRow').hide();
+				}
 				$frmBookingForm.find("input[name='total_price']").val(price.toFixed(2));
 				$frmBookingForm.find("select[name='payment_method']").addClass('required');
 				if(notice == 1)
@@ -783,6 +837,49 @@
 					pjQ.$('#pjEbcErrorMessage_' + self.opts.index).hide();
 				}
 			}
+		},
+		calDiscount: function(price)
+		{
+			var self = this, discount = 0;
+			if(!self.voucher)
+			{
+				return 0;
+			}
+			var disc = parseFloat(self.voucher.voucher_discount);
+			if(isNaN(disc))
+			{
+				return 0;
+			}
+			if(self.voucher.voucher_apply == 'each')
+			{
+				pjQ.$( ".pjEbcPriceSelector" ).each(function( index ) {
+					var unit_price = parseFloat(pjQ.$(this).data('price')),
+						cnt = parseInt(pjQ.$(this).val(), 10);
+					if(cnt > 0)
+					{
+						if(self.voucher.voucher_type == 'percent')
+						{
+							discount += (unit_price * cnt) * disc / 100;
+						}
+						else
+						{
+							discount += disc;
+						}
+					}
+				});
+			}
+			else
+			{
+				if(self.voucher.voucher_type == 'percent')
+				{
+					discount = price * disc / 100;
+				}
+				else
+				{
+					discount = disc;
+				}
+			}
+			return discount;
 		},
 		formatCurrency: function(price, currency)
 		{

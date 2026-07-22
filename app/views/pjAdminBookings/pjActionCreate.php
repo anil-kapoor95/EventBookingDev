@@ -121,7 +121,27 @@
 										<span class="input-group-addon"><?php echo pjCurrency::getCurrencySign($tpl['option_arr']['o_currency']);?></span>
 									</div>
 								</div>
-								
+
+								<input type="hidden" name="voucher_code" id="voucher_code" value="" />
+								<div class="form-group">
+									<label><?php __('front_label_discount_code'); ?></label>
+									<div class="input-group">
+										<input type="text" class="form-control" name="voucher_code_input" id="voucher_code_input" value="" autocomplete="off">
+										<span class="input-group-btn">
+											<button type="button" class="btn btn-primary pjAdminApplyCode"><?php __('front_button_apply'); ?></button>
+										</span>
+									</div>
+									<label id="voucher_msg" class="m-t-xs" style="display: none;"></label>
+								</div>
+
+								<div class="form-group">
+									<label><?php __('front_label_discount'); ?></label>
+									<div class="input-group">
+										<input type="text" class="form-control number" name="booking_discount" id="booking_discount" value="" data-msg-number="<?php __('prices_invalid_price');?>">
+										<span class="input-group-addon"><?php echo pjCurrency::getCurrencySign($tpl['option_arr']['o_currency']);?></span>
+									</div>
+								</div>
+
 								<div class="form-group">
 									<label><?php __('lblBookingTax'); ?></label>
 									<div class="input-group">

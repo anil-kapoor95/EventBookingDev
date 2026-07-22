@@ -289,15 +289,165 @@ class pjAppController extends pjBaseAppController
 		return $ticket_info;
 	}
 	
-	protected function calcPrice($sub_total, $option_arr)
+	protected function calcPrice($sub_total, $option_arr, $discount = 0)
 	{
 		$price = $sub_total;
+		$discount = (float) $discount;
 		$tax = ($price * $option_arr['o_tax_payment']) / 100;
-		$total = $price + $tax;
+		$total = $price - $discount + $tax;
+		$total = $total > 0 ? $total : 0;
 		$deposit = ($total * $option_arr['o_deposit_payment']) / 100;
-		
-		return compact('price', 'tax', 'total', 'deposit');
-	} 
+
+		return compact('price', 'discount', 'tax', 'total', 'deposit');
+	}
+
+	/**
+	 * Validates a discount code and returns the voucher data if it applies.
+	 * Ported (event-scoped) from the Shopping Cart voucher module so the
+	 * validation rules are identical: the date/time window is checked against
+	 * the moment the code is applied (purchase time).
+	 */
+	public static function getDiscount($data, $option_arr)
+	{
+		if (!isset($data['code']) || empty($data['code']))
+		{
+			return array('status' => 'ERR', 'code' => 100, 'text' => __('front_voucher_missing', true));
+		}
+		$arr = pjVoucherModel::factory()
+			->select(sprintf("t1.*, (SELECT GROUP_CONCAT(`event_id`) FROM `%s` WHERE `voucher_id` = `t1`.`id` LIMIT 1) AS `events`", pjVoucherEventModel::factory()->getTable()))
+			->where('t1.code', $data['code'])
+			->limit(1)
+			->findAll()
+			->getData();
+
+		if (empty($arr))
+		{
+			return array('status' => 'ERR', 'code' => 101, 'text' => __('front_voucher_not_found', true));
+		}
+		$arr = $arr[0];
+		// Split the GROUP_CONCAT of scoped event ids into an array (empty => array(''))
+		$arr['events'] = (isset($arr['events']) && $arr['events'] !== null && $arr['events'] !== '') ? explode(',', $arr['events']) : array('');
+
+		$date = $data['date'];
+		if (isset($data['hour']) && isset($data['minute']))
+		{
+			$time = $data['hour'] . ":" . $data['minute'] . ":00";
+		}
+		if (!isset($time))
+		{
+			$time = "00:00:00";
+		}
+		if (empty($date))
+		{
+			return array('status' => 'ERR', 'code' => 103, 'text' => __('front_voucher_missing', true));
+		}
+		$d = strtotime($date);
+		$dt = strtotime($date . " " . $time);
+
+		$valid = false;
+		switch ($arr['valid'])
+		{
+			case 'fixed':
+				$time_from = strtotime($arr['date_from'] . " " . $arr['time_from']);
+				$time_to = strtotime($arr['date_to'] . " " . $arr['time_to']);
+				if ($time_from <= $dt && $time_to >= $dt)
+				{
+					$valid = true;
+				}
+				break;
+			case 'period':
+				$d_from = strtotime($arr['date_from']);
+				$d_to = strtotime($arr['date_to']);
+				$t_from = strtotime($arr['date_from'] . " " . $arr['time_from']);
+				$t_to = strtotime($arr['date_to'] . " " . $arr['time_to']);
+				if ($d_from <= $d && $d_to >= $d && $t_from <= $dt && $t_to >= $dt)
+				{
+					$valid = true;
+				}
+				break;
+			case 'recurring':
+				$t_from = strtotime($date . " " . $arr['time_from']);
+				$t_to = strtotime($date . " " . $arr['time_to']);
+				if ($arr['every'] == strtolower(date("l", $dt)) && $t_from <= $dt && $t_to >= $dt)
+				{
+					$valid = true;
+				}
+				break;
+		}
+
+		if (!$valid)
+		{
+			return array('status' => 'ERR', 'code' => 102, 'text' => __('front_voucher_expired', true));
+		}
+
+		return array(
+			'status' => 'OK',
+			'code' => 200,
+			'text' => __('front_voucher_applied', true),
+			'voucher_code' => $arr['code'],
+			'voucher_type' => $arr['type'],
+			'voucher_apply' => $arr['apply'],
+			'voucher_discount' => $arr['discount'],
+			'voucher_events' => $arr['events']
+		);
+	}
+
+	/**
+	 * Computes the discount amount for a booking, mirroring the Shopping Cart
+	 * price math exactly: apply "each" sums the per-ticket-line discount
+	 * (respecting event scope), apply "total" discounts the whole subtotal.
+	 * $price_arr = rows from pjPriceModel (id, price); $post = raw POST (price_{id} = qty).
+	 */
+	public static function calcBookingDiscount($voucher, $price_arr, $post, $event_id)
+	{
+		$discount = 0;
+		if (empty($voucher) || !isset($voucher['voucher_apply']))
+		{
+			return 0;
+		}
+		$events = isset($voucher['voucher_events']) ? $voucher['voucher_events'] : 'all';
+		$in_scope = ($events === 'all' || (is_array($events) && in_array($event_id, $events)));
+		if (!$in_scope)
+		{
+			return 0;
+		}
+
+		$subtotal = 0;
+		$lines = array();
+		foreach ($price_arr as $v)
+		{
+			$qty = isset($post['price_' . $v['id']]) ? (int) $post['price_' . $v['id']] : 0;
+			if ($qty <= 0)
+			{
+				continue;
+			}
+			$amount = $qty * (float) $v['price'];
+			$subtotal += $amount;
+			$lines[] = $amount;
+		}
+
+		if ($voucher['voucher_apply'] == 'each')
+		{
+			foreach ($lines as $amount)
+			{
+				$discount += pjUtil::getDiscount($amount, $event_id, $voucher);
+			}
+		}
+		else
+		{
+			switch ($voucher['voucher_type'])
+			{
+				case 'percent':
+					$discount = ($subtotal * $voucher['voucher_discount']) / 100;
+					break;
+				case 'amount':
+					$discount = $voucher['voucher_discount'];
+					break;
+			}
+		}
+
+		return $discount;
+	}
 	
 	protected function copyImage($source_id, $dest_id)
 	{

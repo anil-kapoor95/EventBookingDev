@@ -14,7 +14,74 @@ class pjFrontEnd extends pjFront
 		
 		$this->setLayout('pjActionEmpty');
 	}
-	
+
+	/**
+	 * Applies a discount code to the current booking session.
+	 * Mirrors the Shopping Cart pjActionApplyCode: validates the code against
+	 * the current date/time (purchase time), checks the code applies to the
+	 * event being booked, and stores it in the session.
+	 */
+	public function pjActionApplyCode()
+	{
+		$this->setAjax(true);
+
+		if ($this->isXHR())
+		{
+			if (!$this->_post->check('code') || !pjValidation::pjActionNotEmpty($this->_post->toString('code')))
+			{
+				pjAppController::jsonResponse(array('status' => 'ERR', 'code' => 104, 'text' => __('front_voucher_missing', true)));
+			}
+
+			$event_id = $this->_post->toInt('event_id');
+
+			$pre = array();
+			list($pre['date'], $pre['hour'], $pre['minute']) = explode(",", date("Y-m-d,H,i"));
+
+			$response = pjAppController::getDiscount(array_merge($this->_post->raw(), $pre), $this->option_arr);
+			if ($response['status'] == 'OK')
+			{
+				$events = $response['voucher_events'];
+				$applies = empty($events[0]) || in_array($event_id, (array) $events);
+				if ($applies)
+				{
+					$_SESSION[$this->defaultDiscountCode] = array(
+						'voucher_code' => $response['voucher_code'],
+						'voucher_type' => $response['voucher_type'],
+						'voucher_apply' => $response['voucher_apply'],
+						'voucher_discount' => $response['voucher_discount'],
+						'voucher_events' => empty($events[0]) ? 'all' : $events
+					);
+					$response['voucher'] = $_SESSION[$this->defaultDiscountCode];
+				}
+				else
+				{
+					$response = array('status' => 'ERR', 'code' => 104, 'text' => __('front_voucher_not_for_event', true));
+				}
+			}
+			pjAppController::jsonResponse($response);
+		}
+		exit;
+	}
+
+	/**
+	 * Removes the discount code applied to the current booking session.
+	 */
+	public function pjActionRemoveCode()
+	{
+		$this->setAjax(true);
+
+		if ($this->isXHR())
+		{
+			if (isset($_SESSION[$this->defaultDiscountCode]) && !empty($_SESSION[$this->defaultDiscountCode]))
+			{
+				$_SESSION[$this->defaultDiscountCode] = NULL;
+				unset($_SESSION[$this->defaultDiscountCode]);
+			}
+			pjAppController::jsonResponse(array('status' => 'OK', 'code' => 200, 'text' => ''));
+		}
+		exit;
+	}
+
 	public function pjActionLoadCss()
 	{
 		$dm = new pjDependencyManager(PJ_INSTALL_PATH, PJ_THIRD_PARTY_PATH);
@@ -171,13 +238,19 @@ public function pjActionCaptcha()
 			pjAppController::jsonResponse(array('code' => 101, 'text' => __('front_unavailable_ticket_msg', true)));
 		}
 	
-		$amount_arr = $this->calcPrice($this->_post->toFloat('total_price'), $this->option_arr);
-	
+		// Re-validate the applied discount code server-side and compute the discount
+		$voucher = (isset($_SESSION[$this->defaultDiscountCode]) && !empty($_SESSION[$this->defaultDiscountCode])) ? $_SESSION[$this->defaultDiscountCode] : null;
+		$discount = pjAppController::calcBookingDiscount($voucher, $price_arr, $this->_post->raw(), $event_id);
+
+		$amount_arr = $this->calcPrice($this->_post->toFloat('total_price'), $this->option_arr, $discount);
+
 		$data = array();
 		$data['unique_id'] = pjUtil::getUniqueID();
 		$data['booking_status'] = $this->option_arr['o_default_status_if_not_paid'];
 		$data['booking_total'] = $amount_arr['total'];
 		$data['booking_tax'] = $amount_arr['tax'];
+		$data['booking_discount'] = $amount_arr['discount'];
+		$data['voucher_code'] = ($voucher && (float) $amount_arr['discount'] > 0) ? $voucher['voucher_code'] : ':NULL';
 		$data['booking_deposit'] = $amount_arr['deposit'];
 		$data['payment_option']= 'deposit';
 		$data['customer_ip']= $_SERVER['REMOTE_ADDR'];
@@ -273,7 +346,14 @@ public function pjActionCaptcha()
 			$pjTicketPdf->generatePdf($ticket_data);
 				
 			pjFrontEnd::pjActionConfirmSend($this->option_arr, $booking_arr, 'confirm', $this->getLocaleId());
-				
+
+			// Reset the applied discount code once the booking is placed
+			if (isset($_SESSION[$this->defaultDiscountCode]))
+			{
+				$_SESSION[$this->defaultDiscountCode] = NULL;
+				unset($_SESSION[$this->defaultDiscountCode]);
+			}
+
 			$json = array('code' => 200, 'text' => '', 'booking_id' => $insert_id, 'payment' => $this->_post->check('payment_method') ? $this->_post->toString('payment_method') : '');
 			pjAppController::jsonResponse($json);
 		}else{
