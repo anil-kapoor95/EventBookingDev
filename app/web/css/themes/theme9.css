@@ -1,0 +1,82 @@
+@font-face {
+  font-family: 'Droid Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Droid Sans'), local('DroidSans'), url(https://fonts.gstatic.com/s/droidsans/v6/s-BiyweUPV0v-yRb-cjciPk_vArhqVIZ0nv9q090hN8.woff2) format('woff2'), url(https://fonts.gstatic.com/s/droidsans/v6/s-BiyweUPV0v-yRb-cjciBsxEYwM7FgeyaSgU71cLG0.woff) format('woff');
+}
+@font-face {
+  font-family: 'Droid Sans';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Droid Sans Bold'), local('DroidSans-Bold'), url(https://fonts.gstatic.com/s/droidsans/v6/EFpQQyG9GqCrobXxL-KRMYWiMMZ7xLd792ULpGE4W_Y.woff2) format('woff2'), url(https://fonts.gstatic.com/s/droidsans/v6/EFpQQyG9GqCrobXxL-KRMQFhaRv2pGgT5Kf0An0s4MM.woff) format('woff');
+}
+
+body #pjWrapper { font-family: 'Droid Sans', sans-serif; background: #2b1b02; color: #bebebe;}
+
+#pjWrapper .pjEbcEventTitle,
+#pjWrapper .pjEbcEventCategory,
+#pjWrapper .pjEbcBookingForm .pjEbcFormHeader .datetime span,
+#pjWrapper .pjEbcBookingForm .pjEbcEventContent label { color: #f65a1f; }
+
+#pjWrapper .pjPecEventContainer,
+#pjWrapper .pjPecEventContainer .thumbnail { border-color: #2b1b02; background: #3c270a; }
+
+#pjWrapper .pjCfForm .form-control::-webkit-input-placeholder { color: #fff; }
+#pjWrapper .pjCfForm .form-control:-moz-placeholder { color: #fff; }
+#pjWrapper .pjCfForm .form-control::-moz-placeholder { color: #fff; }
+#pjWrapper .pjCfForm .form-control:-ms-input-placeholder { color: #fff; }
+#pjWrapper .form-control,
+#pjWrapper .input-group .input-group-addon { border-color: #3c270a; background: #3c270a; color: #fff; }
+#pjWrapper .form-control:focus { border-color: #f65a1f; -webkit-box-shadow: 0 0 10px rgba(246, 90, 31, .3); box-shadow: 0 0 10px rgba(246, 90, 31, .3); }
+
+#pjWrapper h2 { color: #fff; }
+
+#pjWrapper a { color: #ffd25d; } 
+
+#pjWrapper .dropdown-menu,
+#pjWrapper .btn { color: #fff; background: #f65a1f; border: 1px solid #e25925;}
+
+#pjWrapper .dropdown-menu a { color: #414141; }
+#pjWrapper .dropdown-menu a:hover { background: #e1e2db; }
+
+#pjWrapper .btn:hover,
+#pjWrapper .btn.active { background: #e25925; border: 1px solid #cd4d1d;}
+
+.pjIcCalendarTable th { background: #fff;  color: #e25925; }  
+
+#pjWrapper .pjCalTable td,
+#pjWrapper .pjCalMonths th,
+#pjWrapper .thumbnail { border: 1px solid #2b1b02; }
+
+#pjWrapper .thumbnail,
+#pjWrapper .pjCalTable,
+#pjWrapper .pjCalMonths table,
+#pjWrapper .pjIcCalendarTable td,
+#pjWrapper .pjIcCalendarTable th,
+#pjWrapper .pjIcCalendarTable { background: #3c270a; color: #fff; }
+
+#pjWrapper .pjCalMonths th .active { background: #e25925; }
+
+#pjWrapper .pjIcCalendarTable td.pjIcMonthAlt:hover,
+#pjWrapper .pjIcCalendarTable td.pjIcMonthAlt { background: #2d1c02; }
+
+#pjWrapper .pjIcCalendarTable td:hover { background: #f65a1f; }
+
+#pjWrapper { padding-right: 5px; padding-left: 5px; }
+
+#pjWrapper .pj-calendar-day { background: #2b1b02; }
+#pjWrapper .pj-calendar-head,
+#pjWrapper .pj-calendar-body,
+#pjWrapper .pj-calendar-day p,
+#pjWrapper .pj-calendar-day-disabled p { background: #3c270a; }
+#pjWrapper .pj-calendar-head { border-color: #2b1b02; }
+#pjWrapper .pj-calendar-day-header { background: #3c270a; color: #ffd25d; }
+#pjWrapper .pj-calendar-day p,
+#pjWrapper .pj-calendar-day:hover p { color: #bebebe; }
+#pjWrapper .pj-calendar-day-today p { background: #ffd25d; color: #2b1b02; }
+#pjWrapper .pj-calendar-day-today p:hover { background: #f65a1f; color: #fff; }
+#pjWrapper .pjEbcEventCell p { background: #f65a1f !important; }
+#pjWrapper .pjEbcEventCell p:hover { background: #ffd25d !important; color: #2b1b02 !important; }
+#pjWrapper .pj-calendar-day-past { background: #3c270a; }
+#pjWrapper .pj-calendar-day-past p,
+#pjWrapper .pj-calendar-day-past p:hover { background: #2b1b02; color: #bebebe; }

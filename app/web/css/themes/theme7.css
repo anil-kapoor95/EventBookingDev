@@ -1,0 +1,48 @@
+#pjWrapper .pjEbcEventTitle,
+#pjWrapper .pjEbcEventCategory,
+#pjWrapper .pjEbcBookingForm .pjEbcFormHeader .datetime span,
+#pjWrapper .pjEbcBookingForm .pjEbcEventContent label { color: #128260; }
+
+#pjWrapper a { color: #1ec290; } 
+
+#pjWrapper .form-control:focus { border-color: #1db084; -webkit-box-shadow: 0 0 10px rgba(29, 176, 132, .3); box-shadow: 0 0 10px rgba(29, 176, 132, .3); }
+
+#pjWrapper .dropdown-menu,
+#pjWrapper .btn { color: #fff; background: #1ec290; border: 1px solid #1db084;}
+
+#pjWrapper .dropdown-menu a { color: #fff; }
+#pjWrapper .dropdown-menu a:hover { background: #1db084; }
+
+#pjWrapper .btn:hover,
+#pjWrapper .btn.active { background: #1db084; border: 1px solid #128260;}
+
+.pjCalMonths table th { background: #fafafa; color: #5e5a59; }  
+
+#pjWrapper .thumbnail,
+#pjWrapper .pjCalTable,
+#pjWrapper .pjCalMonths table,
+#pjWrapper .pjIcCalendarTable td,
+#pjWrapper .pjIcCalendarTable { background: #fff; }
+
+#pjWrapper .pjCalMonths th .active { background: #1ec290; }
+
+#pjWrapper .pjIcCalendarTable td.pjIcMonthAlt:hover { background: #f3f5f4; }
+
+#pjWrapper .pjIcCalendarTable td:hover { background: #1ec290; }
+
+#pjWrapper .pj-calendar-day { background: #ddd; }
+#pjWrapper .pj-calendar-head,
+#pjWrapper .pj-calendar-body,
+#pjWrapper .pj-calendar-day p,
+#pjWrapper .pj-calendar-day-disabled p { background: #fafafa; }
+#pjWrapper .pj-calendar-head { border-color: #ddd; }
+#pjWrapper .pj-calendar-day-header { background: #fafafa; color: #128260; }
+#pjWrapper .pj-calendar-day p,
+#pjWrapper .pj-calendar-day:hover p { color: #333; }
+#pjWrapper .pj-calendar-day-today p { background: #1ec290; color: #fff; }
+#pjWrapper .pj-calendar-day-today p:hover { background: #1db084; color: #fff; }
+#pjWrapper .pjEbcEventCell p { background: #1db084 !important; }
+#pjWrapper .pjEbcEventCell p:hover { background: #1ec290 !important; }
+#pjWrapper .pj-calendar-day-past { background: #fafafa; }
+#pjWrapper .pj-calendar-day-past p,
+#pjWrapper .pj-calendar-day-past p:hover { background: #ddd; color: #333; }

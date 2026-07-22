@@ -1,0 +1,95 @@
+/**theme1**/
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Open Sans Light'), local('OpenSans-Light'), url(https://fonts.gstatic.com/s/opensans/v13/DXI1ORHCpsQm3Vp6mXoaTegdm0LZdjqr5-oayXSOefg.woff2) format('woff2'), url(https://fonts.gstatic.com/s/opensans/v13/DXI1ORHCpsQm3Vp6mXoaTXhCUOGz7vYGh680lGh-uXM.woff) format('woff');
+}
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Open Sans'), local('OpenSans'), url(https://fonts.gstatic.com/s/opensans/v13/cJZKeOuBrn4kERxqtaUH3VtXRa8TVwTICgirnJhmVJw.woff2) format('woff2'), url(https://fonts.gstatic.com/s/opensans/v13/cJZKeOuBrn4kERxqtaUH3T8E0i7KZn-EPnyo3HZu7kw.woff) format('woff');
+}
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 600;
+  src: local('Open Sans Semibold'), local('OpenSans-Semibold'), url(https://fonts.gstatic.com/s/opensans/v13/MTP_ySUJH_bn48VBG8sNSugdm0LZdjqr5-oayXSOefg.woff2) format('woff2'), url(https://fonts.gstatic.com/s/opensans/v13/MTP_ySUJH_bn48VBG8sNSnhCUOGz7vYGh680lGh-uXM.woff) format('woff');
+}
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Open Sans Bold'), local('OpenSans-Bold'), url(https://fonts.gstatic.com/s/opensans/v13/k3k702ZOKiLJc3WVjuplzOgdm0LZdjqr5-oayXSOefg.woff2) format('woff2'), url(https://fonts.gstatic.com/s/opensans/v13/k3k702ZOKiLJc3WVjuplzHhCUOGz7vYGh680lGh-uXM.woff) format('woff');
+}
+
+body #pjWrapper { /*background: #f7f7f7;*/ font-family: 'Open Sans', sans-serif;}
+
+#pjWrapper .pjEbcEventTitle,
+#pjWrapper .pjEbcEventCategory,
+#pjWrapper .pjEbcBookingForm .pjEbcFormHeader .datetime span,
+#pjWrapper .pjEbcBookingForm .pjEbcEventContent label { color: #55ad32; }
+
+#pjWrapper .form-control:focus { border-color: #1b6aac; -webkit-box-shadow: 0 0 10px rgba(27, 106, 172, .3); box-shadow: 0 0 10px rgba(27, 106, 172, .3); }
+
+#pjWrapper .btn {
+	border-color: #1b6aac; color: #fff; 
+	background: rgb(64,152,226);
+	background: -moz-linear-gradient(top,  rgba(64,152,226,1) 0%, rgba(53,140,217,1) 60%, rgba(52,140,212,1) 67%, rgba(50,137,214,1) 77%, rgba(47,135,209,1) 97%, rgba(44,134,210,1) 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(64,152,226,1)), color-stop(60%,rgba(53,140,217,1)), color-stop(67%,rgba(52,140,212,1)), color-stop(77%,rgba(50,137,214,1)), color-stop(97%,rgba(47,135,209,1)), color-stop(100%,rgba(44,134,210,1)));
+	background: -webkit-linear-gradient(top,  rgba(64,152,226,1) 0%,rgba(53,140,217,1) 60%,rgba(52,140,212,1) 67%,rgba(50,137,214,1) 77%,rgba(47,135,209,1) 97%,rgba(44,134,210,1) 100%);
+	background: -o-linear-gradient(top,  rgba(64,152,226,1) 0%,rgba(53,140,217,1) 60%,rgba(52,140,212,1) 67%,rgba(50,137,214,1) 77%,rgba(47,135,209,1) 97%,rgba(44,134,210,1) 100%);
+	background: -ms-linear-gradient(top,  rgba(64,152,226,1) 0%,rgba(53,140,217,1) 60%,rgba(52,140,212,1) 67%,rgba(50,137,214,1) 77%,rgba(47,135,209,1) 97%,rgba(44,134,210,1) 100%);
+	background: linear-gradient(to bottom,  rgba(64,152,226,1) 0%,rgba(53,140,217,1) 60%,rgba(52,140,212,1) 67%,rgba(50,137,214,1) 77%,rgba(47,135,209,1) 97%,rgba(44,134,210,1) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4098e2', endColorstr='#2c86d2',GradientType=0 );
+	text-shadow: 0 0 0 #000;
+}
+
+#pjWrapper .pjIcCalendarTable { background: #fff; }
+
+#pjWrapper .btn.active,
+#pjWrapper .btn:hover {
+	 border-color: #1b6aac; color: #fff; 
+	background: rgb(44,134,210);
+	background: -moz-linear-gradient(top,  rgba(44,134,210,1) 0%, rgba(47,135,209,1) 3%, rgba(50,137,214,1) 23%, rgba(52,140,212,1) 33%, rgba(53,140,217,1) 40%, rgba(64,152,226,1) 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(44,134,210,1)), color-stop(3%,rgba(47,135,209,1)), color-stop(23%,rgba(50,137,214,1)), color-stop(33%,rgba(52,140,212,1)), color-stop(40%,rgba(53,140,217,1)), color-stop(100%,rgba(64,152,226,1)));
+	background: -webkit-linear-gradient(top,  rgba(44,134,210,1) 0%,rgba(47,135,209,1) 3%,rgba(50,137,214,1) 23%,rgba(52,140,212,1) 33%,rgba(53,140,217,1) 40%,rgba(64,152,226,1) 100%);
+	background: -o-linear-gradient(top,  rgba(44,134,210,1) 0%,rgba(47,135,209,1) 3%,rgba(50,137,214,1) 23%,rgba(52,140,212,1) 33%,rgba(53,140,217,1) 40%,rgba(64,152,226,1) 100%);
+	background: -ms-linear-gradient(top,  rgba(44,134,210,1) 0%,rgba(47,135,209,1) 3%,rgba(50,137,214,1) 23%,rgba(52,140,212,1) 33%,rgba(53,140,217,1) 40%,rgba(64,152,226,1) 100%);
+	background: linear-gradient(to bottom,  rgba(44,134,210,1) 0%,rgba(47,135,209,1) 3%,rgba(50,137,214,1) 23%,rgba(52,140,212,1) 33%,rgba(53,140,217,1) 40%,rgba(64,152,226,1) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2c86d2', endColorstr='#4098e2',GradientType=0 );
+	text-shadow: 0 0 0 #000;
+}
+
+#pjWrapper a { color: #2e86d0; } 
+
+#pjWrapper .pj-calendar-day { background: #ececec; }
+#pjWrapper .thumbnail,
+#pjWrapper .pjCalTable,
+#pjWrapper .pjCalMonths table,
+#pjWrapper .pjIcCalendarTable td,
+#pjWrapper .pjIcCalendarTable,
+#pjWrapper .pj-calendar-head,
+#pjWrapper .pj-calendar-body,
+#pjWrapper .pj-calendar-day p { background: #f7f7f7; }
+#pjWrapper .pj-calendar-head { border-color: #333; }
+#pjWrapper .pj-calendar-day-header,
+#pjWrapper .pj-calendar-day p,
+#pjWrapper .pj-calendar-day:hover p { color: #333; }
+#pjWrapper .pj-calendar-day-today p { background: #2e86d0; color: #fff; }
+#pjWrapper .pj-calendar-day-today p:hover { background: #55ad32; color: #fff; }
+#pjWrapper .pj-calendar-day-past { background: #f7f7f7; }
+#pjWrapper .pjEbcEventCell p { background: #55ad32 !important; }
+#pjWrapper .pjEbcEventCell p:hover { background: #2e86d0 !important; }
+
+#pjWrapper .pjIcCalendarTable td.pjIcMonthAlt:hover,
+#pjWrapper .pjIcCalendarTable td.pjIcMonthAlt,
+#pjWrapper .pj-calendar-day-past p { background: #ececec; }
+
+#pjWrapper .pjCalMonths th .active { background: #2e86d0; }
+
+#pjWrapper .pjIcCalendarTable td:hover { background: #1b6aac; }
+
+#pjWrapper h2,
+#pjWrapper .thumbnail strong { color: #55ad32; }

@@ -1,0 +1,79 @@
+@font-face {
+  font-family: 'Ubuntu';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Ubuntu Light'), local('Ubuntu-Light'), url(https://fonts.gstatic.com/s/ubuntu/v7/_aijTyevf54tkVDLy-dlnFtXRa8TVwTICgirnJhmVJw.woff2) format('woff2'), url(https://fonts.gstatic.com/s/ubuntu/v7/_aijTyevf54tkVDLy-dlnD8E0i7KZn-EPnyo3HZu7kw.woff) format('woff');
+}
+@font-face {
+  font-family: 'Ubuntu';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Ubuntu'), url(https://fonts.gstatic.com/s/ubuntu/v7/sDGTilo5QRsfWu6Yc11AXg.woff2) format('woff2'), url(https://fonts.gstatic.com/s/ubuntu/v7/_xyN3apAT_yRRDeqB3sPRg.woff) format('woff');
+}
+@font-face {
+  font-family: 'Ubuntu';
+  font-style: normal;
+  font-weight: 500;
+  src: local('Ubuntu Medium'), local('Ubuntu-Medium'), url(https://fonts.gstatic.com/s/ubuntu/v7/OsJ2DjdpjqFRVUSto6IffFtXRa8TVwTICgirnJhmVJw.woff2) format('woff2'), url(https://fonts.gstatic.com/s/ubuntu/v7/OsJ2DjdpjqFRVUSto6IffD8E0i7KZn-EPnyo3HZu7kw.woff) format('woff');
+}
+@font-face {
+  font-family: 'Ubuntu';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Ubuntu Bold'), local('Ubuntu-Bold'), url(https://fonts.gstatic.com/s/ubuntu/v7/0ihfXUL2emPh0ROJezvraFtXRa8TVwTICgirnJhmVJw.woff2) format('woff2'), url(https://fonts.gstatic.com/s/ubuntu/v7/0ihfXUL2emPh0ROJezvraD8E0i7KZn-EPnyo3HZu7kw.woff) format('woff');
+}
+
+body #pjWrapper { color: #5a3e33; font-family: 'Ubuntu', sans-serif;}
+
+#pjWrapper .pjEbcEventTitle,
+#pjWrapper .pjEbcEventCategory,
+#pjWrapper .pjEbcBookingForm .pjEbcFormHeader .datetime span,
+#pjWrapper .pjEbcBookingForm .pjEbcEventContent label { color: #a24a1f; }
+
+#pjWrapper .form-control:focus { border-color: #bd5726; -webkit-box-shadow: 0 0 10px rgba(189, 87, 38, .3); box-shadow: 0 0 10px rgba(189, 87, 38, .3); }
+
+#pjWrapper a { color: #d66e3b; } 
+
+#pjWrapper .dropdown-menu,
+#pjWrapper .btn { color: #fff; background: #d66e3b; border: 1px solid #bd5726;}
+
+#pjWrapper .dropdown-menu a { color: #fff; }
+#pjWrapper .dropdown-menu a:hover { background: #bd5726; }
+
+#pjWrapper .btn:hover,
+#pjWrapper .btn.active { background: #bd5726; border: 1px solid #a24a1f;}
+
+#pjWrapper .fc-state-default { text-shadow: 0 0 0 rgba(0,0,0,0); }
+
+.pjIcCalendarTable th { background: #fff; color: #5a3e33; }  
+
+#pjWrapper .thumbnail,
+#pjWrapper .pjCalTable,
+#pjWrapper .pjCalMonths table,
+#pjWrapper .pjIcCalendarTable td,
+#pjWrapper .pjIcCalendarTable th,
+#pjWrapper .pjIcCalendarTable { background: #f9f8f3; }
+
+#pjWrapper .pjIcCalendarTable td.pjIcMonthAlt:hover,
+#pjWrapper .pjIcCalendarTable td.pjIcMonthAlt { background: #e8e6e6; }
+
+#pjWrapper .pjCalMonths th .active { background: #d66e3b; }
+
+#pjWrapper .pjIcCalendarTable td:hover { background: #d66e3b ; }
+
+#pjWrapper .pj-calendar-day { background: #ddd; }
+#pjWrapper .pj-calendar-head,
+#pjWrapper .pj-calendar-body,
+#pjWrapper .pj-calendar-day p,
+#pjWrapper .pj-calendar-day-disabled p { background: #f9f8f3; }
+#pjWrapper .pj-calendar-head { border-color: #ddd; }
+#pjWrapper .pj-calendar-day-header { background: #f9f8f3; color: #d66e3b; }
+#pjWrapper .pj-calendar-day p,
+#pjWrapper .pj-calendar-day:hover p { color: #5a3e33; }
+#pjWrapper .pj-calendar-day-today p { background: #bd5726; color: #fff; }
+#pjWrapper .pj-calendar-day-today p:hover { background: #d66e3b; color: #fff; }
+#pjWrapper .pjEbcEventCell p { background: #d66e3b !important; }
+#pjWrapper .pjEbcEventCell p:hover { background: #bd5726 !important; }
+#pjWrapper .pj-calendar-day-past { background: #f9f8f3; }
+#pjWrapper .pj-calendar-day-past p,
+#pjWrapper .pj-calendar-day-past p:hover { background: #5a3e33; color: #fff; }

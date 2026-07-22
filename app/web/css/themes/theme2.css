@@ -1,0 +1,75 @@
+/*theme2*/
+@font-face {
+  font-family: 'Oswald';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Oswald Light'), local('Oswald-Light'), url(https://fonts.gstatic.com/s/oswald/v10/HqHm7BVC_nzzTui2lzQTDVtXRa8TVwTICgirnJhmVJw.woff2) format('woff2'), url(https://fonts.gstatic.com/s/oswald/v10/HqHm7BVC_nzzTui2lzQTDT8E0i7KZn-EPnyo3HZu7kw.woff) format('woff');
+}
+@font-face {
+  font-family: 'Oswald';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Oswald Regular'), local('Oswald-Regular'), url(https://fonts.gstatic.com/s/oswald/v10/pEobIV_lL25TKBpqVI_a2w.woff2) format('woff2'), url(https://fonts.gstatic.com/s/oswald/v10/-g5pDUSRgvxvOl5u-a_WHw.woff) format('woff');
+}
+@font-face {
+  font-family: 'Oswald';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Oswald Bold'), local('Oswald-Bold'), url(https://fonts.gstatic.com/s/oswald/v10/bH7276GfdCjMjApa_dkG6VtXRa8TVwTICgirnJhmVJw.woff2) format('woff2'), url(https://fonts.gstatic.com/s/oswald/v10/bH7276GfdCjMjApa_dkG6T8E0i7KZn-EPnyo3HZu7kw.woff) format('woff');
+}
+
+body #pjWrapper { font-family: 'Oswald', sans-serif; }
+
+#pjWrapper .pjEbcEventTitle,
+#pjWrapper .pjEbcEventCategory,
+#pjWrapper .pjEbcBookingForm .pjEbcFormHeader .datetime span,
+#pjWrapper .pjEbcBookingForm .pjEbcEventContent label { color: #ea3b1c; }
+
+#pjWrapper .form-control:focus { border-color: #d0391c; -webkit-box-shadow: 0 0 10px rgba(208, 57, 28, .3); box-shadow: 0 0 10px rgba(208, 57, 28, .3); }
+
+#pjWrapper a { color: #ea3b1c; } 
+
+#pjWrapper .dropdown-menu,
+#pjWrapper .btn { color: #fff; background: #ef4625; border: 1px solid #d0391c;}
+
+#pjWrapper .dropdown-menu a { color: #fff; }
+#pjWrapper .dropdown-menu a:hover { background: #a62e17; }
+
+#pjWrapper .btn:hover,
+#pjWrapper .btn.active { background: #a62e17; border: 1px solid #7c2312;}
+
+.pjCalMonths table th { background: #3d3938; color: #fff; }  
+
+#pjWrapper .thumbnail,
+.pjCalTable td { background: #fdfcfd; }
+
+#pjWrapper .table-bordered, 
+#pjWrapper .table-bordered > tbody > tr > td, 
+#pjWrapper .table-bordered > tbody > tr > th, 
+#pjWrapper .table-bordered > tfoot > tr > td, 
+#pjWrapper .table-bordered > tfoot > tr > th, 
+#pjWrapper .table-bordered > thead > tr > td, 
+#pjWrapper .table-bordered > thead > tr > th,
+#pjWrapper .thumbnail { border-color: #3d3938; }
+
+#pjWrapper .pjCalMonths th .active { background: #ea3b1c; }
+
+#pjWrapper .pjIcCalendarTable td.pjIcMonthAlt:hover { background: #f3f5f4; }
+
+#pjWrapper .pjIcCalendarTable td:hover { background: #d0391c; }
+
+#pjWrapper .pj-calendar-day { background: #ddd; }
+#pjWrapper .pj-calendar-head,
+#pjWrapper .pj-calendar-body,
+#pjWrapper .pj-calendar-day p,
+#pjWrapper .pj-calendar-day-disabled p { background: #f7f7f7; }
+#pjWrapper .pj-calendar-head { border-color: #3d3938; }
+#pjWrapper .pj-calendar-day-header { background: #3d3938; color: #ea3b1c; }
+#pjWrapper .pj-calendar-day p,
+#pjWrapper .pj-calendar-day:hover p { color: #3d3938; }
+#pjWrapper .pj-calendar-day-today p { background: #d0391c; color: #fff; }
+#pjWrapper .pj-calendar-day-today p:hover { background: #ea3b1c; color: #fff; }
+#pjWrapper .pj-calendar-day-past { background: #f7f7f7; }
+#pjWrapper .pjEbcEventCell p { background: #ea3b1c !important; }
+#pjWrapper .pjEbcEventCell p:hover { background: #d0391c !important; }
+#pjWrapper .pj-calendar-day-past p { background: #ddd; }

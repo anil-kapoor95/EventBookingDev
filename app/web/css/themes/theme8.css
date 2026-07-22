@@ -1,0 +1,80 @@
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Montserrat-Regular'), url(https://fonts.gstatic.com/s/montserrat/v6/zhcz-_WihjSQC0oHJ9TCYPk_vArhqVIZ0nv9q090hN8.woff2) format('woff2'), url(https://fonts.gstatic.com/s/montserrat/v6/zhcz-_WihjSQC0oHJ9TCYBsxEYwM7FgeyaSgU71cLG0.woff) format('woff');
+}
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Montserrat-Bold'), url(https://fonts.gstatic.com/s/montserrat/v6/IQHow_FEYlDC4Gzy_m8fcoWiMMZ7xLd792ULpGE4W_Y.woff2) format('woff2'), url(https://fonts.gstatic.com/s/montserrat/v6/IQHow_FEYlDC4Gzy_m8fcgFhaRv2pGgT5Kf0An0s4MM.woff) format('woff');
+}
+
+body #pjWrapper { color: #bebebe;font-family: 'Montserrat', sans-serif; background: #222;}
+
+#pjWrapper .pjEbcEventTitle,
+#pjWrapper .pjEbcEventCategory,
+#pjWrapper .pjEbcBookingForm .pjEbcFormHeader .datetime span,
+#pjWrapper .pjEbcBookingForm .pjEbcEventContent label { color: #f1f2ed; }
+
+#pjWrapper .pjPecEventContainer,
+#pjWrapper .pjPecEventContainer .thumbnail { border-color: #222; background: #5e5a59; }
+
+#pjWrapper .pjCfForm .form-control::-webkit-input-placeholder { color: #fff; }
+#pjWrapper .pjCfForm .form-control:-moz-placeholder { color: #fff; }
+#pjWrapper .pjCfForm .form-control::-moz-placeholder { color: #fff; }
+#pjWrapper .pjCfForm .form-control:-ms-input-placeholder { color: #fff; }
+#pjWrapper .form-control,
+#pjWrapper .input-group .input-group-addon { border-color: #413f40; background: #413f40; color: #fff; }
+#pjWrapper .form-control:focus { border-color: #fff; -webkit-box-shadow: 0 0 10px rgba(255, 255, 255, .3); box-shadow: 0 0 10px rgba(255, 255, 255, .3); }
+
+#pjWrapper .fc-toolbar h2,
+#pjWrapper .pjCalMonths th,
+#pjWrapper a { color: #fff; } 
+
+#pjWrapper .dropdown-menu,
+#pjWrapper .btn { color: #414141; background: #f1f2ed; border: 1px solid #f1f2ed;}
+
+#pjWrapper .dropdown-menu a { color: #414141; }
+#pjWrapper .dropdown-menu a:hover { background: #e1e2db; }
+
+#pjWrapper .btn:hover,
+#pjWrapper .btn.active { background: #e1e2db; border: 1px solid #e1e2db;}
+
+.pjIcCalendarTable th { background: #fff; color: #5e5a59; }  
+
+#pjWrapper .pjCalTable td,
+#pjWrapper .pjCalMonths th,
+#pjWrapper .thumbnail { border: 1px solid #222; }
+
+#pjWrapper .thumbnail strong { color: #000; }
+
+#pjWrapper .thumbnail,
+#pjWrapper .pjCalTable,
+#pjWrapper .pjCalMonths table,
+#pjWrapper .pjIcCalendarTable td,
+#pjWrapper .pjIcCalendarTable th,
+#pjWrapper .pjIcCalendarTable { background: #413f40; color: #fff; }
+
+#pjWrapper .pjCalMonths th .active { background: #111; }
+
+#pjWrapper .pjIcCalendarTable td.pjIcMonthAlt { background: #222; }
+#pjWrapper { padding-right: 5px; padding-left: 5px; }
+
+#pjWrapper .pj-calendar-day { background: #222; }
+#pjWrapper .pj-calendar-head,
+#pjWrapper .pj-calendar-body,
+#pjWrapper .pj-calendar-day p,
+#pjWrapper .pj-calendar-day-disabled p { background: #413f40; }
+#pjWrapper .pj-calendar-head { border-color: #222; }
+#pjWrapper .pj-calendar-day-header { background: #413f40; color: #fff; }
+#pjWrapper .pj-calendar-day p,
+#pjWrapper .pj-calendar-day:hover p { color: #bebebe; }
+#pjWrapper .pj-calendar-day-today p { background: #f1f2ed; color: #222; }
+#pjWrapper .pj-calendar-day-today p:hover { background: #5e5a59; color: #fff; }
+#pjWrapper .pjEbcEventCell p { background: #5e5a59 !important; }
+#pjWrapper .pjEbcEventCell p:hover { background: #f1f2ed !important; color: #222 !important; }
+#pjWrapper .pj-calendar-day-past { background: #413f40; }
+#pjWrapper .pj-calendar-day-past p,
+#pjWrapper .pj-calendar-day-past p:hover { background: #222; color: #bebebe; }

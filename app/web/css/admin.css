@@ -1,0 +1,135 @@
+@CHARSET "UTF-8";
+.tabs-container .tabs-left > .nav-tabs{margin-right: 0px !important;}
+.tabs-container .tab-content .ibox-content{border-width: 0;}
+.ibox-heading {
+    background-color: #f0f9f1;
+    margin-bottom: 10px;
+}
+.boxEmail, .boxReminder { display: none; }
+
+.empty {
+    background-color: #135E8D;
+    color: #FFFFFF;
+}
+
+.rect {
+    cursor: pointer;
+    display: block;
+    font-size: 0.9em;
+    overflow: hidden;
+    position: absolute!important;
+    text-align: center;
+    z-index: 1000;
+}
+
+.theme-holder{
+	padding-top: 15px;
+	overflow: hidden;
+}
+.theme-holder .theme-box-outer{
+	width: 19.59999%;
+	margin-bottom: 26px;
+	display: inline-block;
+	vertical-align: top;
+}
+.theme-holder .theme-box{
+	margin-left: 10px;
+	overflow: hidden;
+}
+.theme-holder .theme-box .theme-image{
+	display: block;
+	width: 124px;
+	height: 124px;
+	border: 2px solid #e9e9e9;
+	position: relative;
+	margin-bottom: 8px;
+}
+.theme-holder .theme-box .theme-image.active{
+	border: 2px solid #b2ca80;
+}
+.theme-holder .theme-box .theme-image span{
+	display: none;
+	position: absolute;
+	width: 24px;
+	height: 27px;
+	left: 0px;
+	bottom: 0px;
+	background: url("../img/backend/tick.png") no-repeat;
+}
+.theme-holder .theme-box .theme-image.active span{
+	display: block;
+}
+.theme-holder .theme-box .theme-image img{
+	display: block;
+}
+.theme-holder .theme-box label{
+	display: block;
+	color: #68add6;
+	text-align: center;
+	margin-bottom: 8px;
+	width: 124px;
+}
+.theme-holder .theme-box label.inused{
+	margin-bottom: 0px;
+	color: #595a5c;
+	margin-top: 15px;
+	font-weight: bold;
+}
+
+.chosen-container{
+	width: 100% !important; 
+}
+.pjFdEventPrice{
+	max-width: 150px;
+}
+.panel.ibox-content{
+	padding: 0px;
+}
+.form-group.ibox-content{
+	padding: 0px;
+	border-top: none;
+}
+#used_tickets .lead,
+#bookings .lead{font-size: 17px;}
+.tab-update-event .tab-main-details .tab-pane .panel-body{border-bottom: 0; padding-bottom: 0;}
+.tab-update-event .tab-main-details .tab-pane .panel-body #pjNotificationContent .ibox{margin-bottom: 0;}
+.tab-update-event .tab-actions .tab-pane .panel-body{border-top: 0; padding-top: 0;}
+.pj-table-icon-custom-delete .fa-custom-delete::before {
+    content: "\f1f8";
+}
+.pj-table-icon-custom-delete.btn-outline {
+  color: #ed5565;
+}
+.pj-table-icon-custom-delete.btn-outline:hover {
+  color: #fff;
+}
+.pj-table-icon-custom-delete {
+  background-color: #ed5565;
+  border-color: #ed5565;
+  color: #FFFFFF;
+}
+.pj-table-icon-custom-delete:hover,
+.pj-table-icon-custom-delete:focus,
+.pj-table-icon-custom-delete:active,
+.pj-table-icon-custom-delete.active,
+.pj-table-icon-custom-delete:active:focus,
+.pj-table-icon-custom-delete:active:hover,
+.pj-table-icon-custom-delete.active:hover,
+.pj-table-icon-custom-delete.active:focus {
+  background-color: #ec4758 !important;
+  border-color: #ec4758 !important;
+  color: #FFFFFF !important;
+}
+.pj-table-icon-custom-delete:active,
+.pj-table-icon-custom-delete.active {
+  background-image: none;
+}
+#pjEbcSummaryWrapper .panel-body{
+	word-break: break-word;
+}
+input.barcode-field {
+    height: 64px !important;
+    text-align: center;
+    font-size: 36px;
+}
+#frmReadBarcode p.form-control-static{padding: 0 0 0 5px;}
