@@ -787,6 +787,7 @@
 				$total_price_label = pjQ.$('#pjEbcTotalPrice_' + this.opts.index),
 				$deposit_label = pjQ.$('#pjEbcDeposit_' + this.opts.index),
 				$discount_label = pjQ.$('#pjEbcDiscount_' + this.opts.index),
+				$discount_rate = pjQ.$('#pjEbcDiscountRate_' + this.opts.index),
 				discount = 0,
 				$frmBookingForm = pjQ.$('#pjEbcBookingForm_' + this.opts.index);
 
@@ -823,11 +824,25 @@
 				if(discount > 0)
 				{
 					$discount_label.html("-" + self.formatCurrency(discount, self.opts.currency));
+					if($discount_rate.length && self.voucher)
+					{
+						var rateTxt = "";
+						if(self.voucher.voucher_type == 'percent')
+						{
+							rateTxt = " (" + parseFloat(self.voucher.voucher_discount).toFixed(2) + "%)";
+						}
+						else
+						{
+							rateTxt = " (" + self.formatCurrency(parseFloat(self.voucher.voucher_discount), self.opts.currency) + ")";
+						}
+						$discount_rate.html(rateTxt);
+					}
 					pjQ.$('.pjEbcDiscountRow').show();
 				}
 				else
 				{
 					$discount_label.html("");
+					$discount_rate.html("");
 					pjQ.$('.pjEbcDiscountRow').hide();
 				}
 				$frmBookingForm.find("input[name='total_price']").val(price.toFixed(2));
@@ -850,35 +865,45 @@
 			{
 				return 0;
 			}
+			var type = self.voucher.voucher_type,
+				subtotal = 0,
+				lines = [];
+			pjQ.$( ".pjEbcPriceSelector" ).each(function( index ) {
+				var unit_price = parseFloat(pjQ.$(this).data('price')),
+					cnt = parseInt(pjQ.$(this).val(), 10);
+				if(cnt > 0)
+				{
+					subtotal += unit_price * cnt;
+					lines.push({ unit: unit_price, qty: cnt, amount: unit_price * cnt });
+				}
+			});
 			if(self.voucher.voucher_apply == 'each')
 			{
-				pjQ.$( ".pjEbcPriceSelector" ).each(function( index ) {
-					var unit_price = parseFloat(pjQ.$(this).data('price')),
-						cnt = parseInt(pjQ.$(this).val(), 10);
-					if(cnt > 0)
+				for(var i = 0; i < lines.length; i++)
+				{
+					if(type == 'percent')
 					{
-						if(self.voucher.voucher_type == 'percent')
-						{
-							discount += (unit_price * cnt) * disc / 100;
-						}
-						else
-						{
-							discount += disc;
-						}
+						discount += (lines[i].amount * disc) / 100;
 					}
-				});
+					else // amount off per ticket, capped at the ticket's unit price
+					{
+						discount += Math.min(disc, lines[i].unit) * lines[i].qty;
+					}
+				}
 			}
-			else
+			else // whole booking
 			{
-				if(self.voucher.voucher_type == 'percent')
+				if(type == 'percent')
 				{
-					discount = price * disc / 100;
+					discount = subtotal * disc / 100;
 				}
-				else
+				else // fixed amount once, capped at subtotal
 				{
-					discount = disc;
+					discount = Math.min(disc, subtotal);
 				}
 			}
+			if(discount > subtotal) { discount = subtotal; }
+			if(discount < 0) { discount = 0; }
 			return discount;
 		},
 		formatCurrency: function(price, currency)

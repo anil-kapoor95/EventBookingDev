@@ -393,9 +393,12 @@ class pjAppController extends pjBaseAppController
 	}
 
 	/**
-	 * Computes the discount amount for a booking, mirroring the Shopping Cart
-	 * price math exactly: apply "each" sums the per-ticket-line discount
-	 * (respecting event scope), apply "total" discounts the whole subtotal.
+	 * Computes the discount amount for a booking (event-scoped).
+	 * Percent: X% of the subtotal (apply "each" and "total" are equivalent).
+	 * Amount + "each ticket": the fixed amount off PER TICKET (unit quantity),
+	 *   capped at each ticket's own price so it can never exceed the ticket value.
+	 * Amount + "whole booking" (total): the fixed amount once, capped at subtotal.
+	 * The final discount is always capped at the subtotal (total can't go negative).
 	 * $price_arr = rows from pjPriceModel (id, price); $post = raw POST (price_{id} = qty).
 	 */
 	public static function calcBookingDiscount($voucher, $price_arr, $post, $event_id)
@@ -412,6 +415,9 @@ class pjAppController extends pjBaseAppController
 			return 0;
 		}
 
+		$type = $voucher['voucher_type'];
+		$disc = (float) $voucher['voucher_discount'];
+
 		$subtotal = 0;
 		$lines = array();
 		foreach ($price_arr as $v)
@@ -421,29 +427,45 @@ class pjAppController extends pjBaseAppController
 			{
 				continue;
 			}
-			$amount = $qty * (float) $v['price'];
-			$subtotal += $amount;
-			$lines[] = $amount;
+			$unit = (float) $v['price'];
+			$subtotal += $unit * $qty;
+			$lines[] = array('unit' => $unit, 'qty' => $qty, 'amount' => $unit * $qty);
 		}
 
 		if ($voucher['voucher_apply'] == 'each')
 		{
-			foreach ($lines as $amount)
+			foreach ($lines as $ln)
 			{
-				$discount += pjUtil::getDiscount($amount, $event_id, $voucher);
+				if ($type == 'percent')
+				{
+					$discount += ($ln['amount'] * $disc) / 100;
+				}
+				else // amount off per ticket, capped at the ticket's unit price
+				{
+					$discount += min($disc, $ln['unit']) * $ln['qty'];
+				}
 			}
 		}
-		else
+		else // whole booking
 		{
-			switch ($voucher['voucher_type'])
+			if ($type == 'percent')
 			{
-				case 'percent':
-					$discount = ($subtotal * $voucher['voucher_discount']) / 100;
-					break;
-				case 'amount':
-					$discount = $voucher['voucher_discount'];
-					break;
+				$discount = ($subtotal * $disc) / 100;
 			}
+			else // fixed amount once, capped at subtotal
+			{
+				$discount = min($disc, $subtotal);
+			}
+		}
+
+		// Never discount more than the subtotal
+		if ($discount > $subtotal)
+		{
+			$discount = $subtotal;
+		}
+		if ($discount < 0)
+		{
+			$discount = 0;
 		}
 
 		return $discount;

@@ -34,6 +34,7 @@ function getCsrfToken(){var m=document.querySelector('meta[name="csrf-token"]');
 
 		if ($(".select-item").length) {
             $(".select-item").select2({
+                width: '100%',
                 allowClear: true
             });
         };

@@ -110,13 +110,11 @@ if (isset($tpl['status']) && $tpl['status'] == 'IP_BLOCKED') {
 						<label class="title"><?php __('front_label_discount_code'); ?></label>
 						<div class="row">
 							<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-								<div class="input-group">
-									<input type="text" name="voucher_code" id="pjEbcVoucherCode_<?php echo $index; ?>" class="pjEbcField form-control" autocomplete="off" value="<?php echo $controller->_post->check('voucher_code') ? pjSanitize::html($controller->_post->toString('voucher_code')) : NULL; ?>" />
-									<span class="input-group-btn">
-										<button type="button" class="pjEbcButton btn btn-primary pjEbcApplyCode" data-index="<?php echo $index; ?>" data-event="<?php echo $tpl['arr']['id']; ?>"><?php __('front_button_apply'); ?></button>
-										<button type="button" class="pjEbcButton btn btn-default pjEbcRemoveCode" data-index="<?php echo $index; ?>" style="display: none"><?php __('front_button_remove'); ?></button>
-									</span>
-								</div><!-- /.input-group -->
+								<input type="text" name="voucher_code" id="pjEbcVoucherCode_<?php echo $index; ?>" class="pjEbcField form-control" autocomplete="off" value="<?php echo $controller->_post->check('voucher_code') ? pjSanitize::html($controller->_post->toString('voucher_code')) : NULL; ?>" />
+								<div class="pjEbcVoucherButtons" style="margin-top: 8px;">
+									<button type="button" class="pjEbcButton btn btn-primary pjEbcApplyCode" data-index="<?php echo $index; ?>" data-event="<?php echo $tpl['arr']['id']; ?>"><?php __('front_button_apply'); ?></button>
+									<button type="button" class="pjEbcButton btn btn-default pjEbcRemoveCode" data-index="<?php echo $index; ?>" style="display: none"><?php __('front_button_remove'); ?></button>
+								</div><!-- /.pjEbcVoucherButtons -->
 								<label id="pjEbcVoucherMsg_<?php echo $index; ?>" class="pjEbcVoucherMsg content" style="display: none; margin-top: 6px;"></label>
 							</div>
 						</div><!-- /.row -->
@@ -127,7 +125,7 @@ if (isset($tpl['status']) && $tpl['status'] == 'IP_BLOCKED') {
 							<label id="pjEbcPrice_<?php echo $index; ?>" class="content">---</label>
 						</p>
 						<p class="pjEbcPriceRow pjEbcDiscountRow" style="display: none">
-							<label class="title"><?php __('front_label_discount'); ?></label>
+							<label class="title"><?php __('front_label_discount'); ?><span id="pjEbcDiscountRate_<?php echo $index; ?>" class="pjEbcDiscountRate"></span></label>
 							<label id="pjEbcDiscount_<?php echo $index; ?>" class="content">---</label>
 						</p>
 						<p class="pjEbcPriceRow" style="display: none">

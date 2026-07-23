@@ -1,4 +1,10 @@
 @CHARSET "UTF-8";
+/* Keep select2 multi-selects (e.g. voucher Events) inside their column and
+   let the box grow vertically so wrapped tags stay inside it. The tags are
+   floated, so the box must wrap them (flex) and use height:auto to grow. */
+.select-item + .select2-container { width: 100% !important; }
+.select2-container .select2-selection--multiple { height: auto !important; min-height: 34px; }
+.select2-container .select2-selection--multiple .select2-selection__rendered { display: flex; flex-wrap: wrap; align-items: center; }
 .tabs-container .tabs-left > .nav-tabs{margin-right: 0px !important;}
 .tabs-container .tab-content .ibox-content{border-width: 0;}
 .ibox-heading {

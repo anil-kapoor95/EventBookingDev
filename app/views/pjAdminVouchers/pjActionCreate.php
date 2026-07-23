@@ -87,7 +87,7 @@ $bodies = __('error_bodies', true);
                         	<div class="form-group">
 								<label class="control-label"><?php __('voucher_events'); ?></label>
 
-								<select name="event_id[]" id="event_id" multiple="multiple" class="form-control select-item select2-hidden-accessible" data-placeholder="-- <?php __('lblAll'); ?> --" data-msg-required="<?php __('pj_field_required', false, true);?>">
+								<select name="event_id[]" id="event_id" multiple="multiple" class="form-control select-item" data-placeholder="-- <?php __('lblAll'); ?> --" data-msg-required="<?php __('pj_field_required', false, true);?>">
 									<?php
 									foreach ($tpl['event_arr'] as $v)
 									{
