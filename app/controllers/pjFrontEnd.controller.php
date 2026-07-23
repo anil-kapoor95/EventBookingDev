@@ -397,6 +397,8 @@ public function pjActionCaptcha()
 		$tax = $booking_arr['booking_tax'] . ' ' . $option_arr['o_currency'];
 		$deposit = $booking_arr['booking_deposit'] . ' ' . $option_arr['o_currency'];
 		$balance = ($booking_arr['booking_total'] - $booking_arr['booking_deposit']) . ' ' . $option_arr['o_currency'];
+		$discount_amount = ((float) $booking_arr['booking_discount'] > 0 ? $booking_arr['booking_discount'] : '0.00') . ' ' . $option_arr['o_currency'];
+		$discount_code = $booking_arr['voucher_code'];
 		$search = array (
 				'{Name}',
 				'{Email}',
@@ -414,6 +416,8 @@ public function pjActionCaptcha()
 				'{EventTitle}',
 				'{EventDateTime}',
 				'{EventLocation}',
+				'{DiscountCode}',
+				'{Discount}',
 				'{Total}',
 				'{Tax}',
 				'{Deposit}',
@@ -438,6 +442,8 @@ public function pjActionCaptcha()
 				$booking_arr['event_title'],
 				$event_date,
 				$booking_arr['event_location'],
+				$discount_code,
+				$discount_amount,
 				$total,
 				$tax,
 				$deposit,

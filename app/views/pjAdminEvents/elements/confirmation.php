@@ -52,6 +52,8 @@
                             <div class="ibox-content">
             					<div class="notifyTokens reservationTokens">
             						<?php __('notifications_tokens_list');?>
+            						<div><small><strong>{DiscountCode}</strong> - discount code applied</small></div>
+            						<div><small><strong>{Discount}</strong> - discount amount</small></div>
             					</div>
             				</div>
                         </div>
