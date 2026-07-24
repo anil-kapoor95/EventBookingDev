@@ -310,8 +310,11 @@ class pjFrontPublic extends pjFront
 				->findAll()
 				->getData();
 
-			// Apply the discount code (if any) using the exact Shopping Cart math
+			// Apply the discount code (if any) using the exact Shopping Cart math.
+			// Re-validate against the current DB state so a code that no longer
+			// applies to this event (re-scoped/expired/removed) yields no discount.
 			$voucher = (isset($_SESSION[$this->defaultDiscountCode]) && !empty($_SESSION[$this->defaultDiscountCode])) ? $_SESSION[$this->defaultDiscountCode] : null;
+			$voucher = pjAppController::getValidSessionVoucher($voucher, $event_id, $this->option_arr);
 			$discount = pjAppController::calcBookingDiscount($voucher, $price_arr, $this->_post->raw(), $event_id);
 			$amount_arr = $this->calcPrice($this->_post->toFloat('total_price'), $this->option_arr, $discount);
 

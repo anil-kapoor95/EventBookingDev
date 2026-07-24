@@ -238,8 +238,11 @@ public function pjActionCaptcha()
 			pjAppController::jsonResponse(array('code' => 101, 'text' => __('front_unavailable_ticket_msg', true)));
 		}
 	
-		// Re-validate the applied discount code server-side and compute the discount
+		// Re-validate the applied discount code server-side (current event scope +
+		// purchase-time validity) so a stale/no-longer-applicable code stored in the
+		// session cannot discount the saved booking. Invalid => no discount.
 		$voucher = (isset($_SESSION[$this->defaultDiscountCode]) && !empty($_SESSION[$this->defaultDiscountCode])) ? $_SESSION[$this->defaultDiscountCode] : null;
+		$voucher = pjAppController::getValidSessionVoucher($voucher, $event_id, $this->option_arr);
 		$discount = pjAppController::calcBookingDiscount($voucher, $price_arr, $this->_post->raw(), $event_id);
 
 		$amount_arr = $this->calcPrice($this->_post->toFloat('total_price'), $this->option_arr, $discount);

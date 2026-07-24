@@ -393,6 +393,43 @@ class pjAppController extends pjBaseAppController
 	}
 
 	/**
+	 * Re-validates a discount code held in the booking session against the
+	 * CURRENT database state (event scope + purchase-time validity). A code that
+	 * was applied earlier but no longer qualifies for this event — e.g. the
+	 * merchant re-scoped it to other events, changed its valid window, or removed
+	 * it — must not keep discounting at preview/checkout just because a stale
+	 * snapshot lingers in the session. Returns a fresh voucher array when the code
+	 * still applies to $event_id, or null otherwise.
+	 */
+	public static function getValidSessionVoucher($session_voucher, $event_id, $option_arr)
+	{
+		if (empty($session_voucher) || empty($session_voucher['voucher_code']))
+		{
+			return null;
+		}
+		$pre = array();
+		list($pre['date'], $pre['hour'], $pre['minute']) = explode(",", date("Y-m-d,H,i"));
+		$response = self::getDiscount(array_merge(array('code' => $session_voucher['voucher_code']), $pre), $option_arr);
+		if (!isset($response['status']) || $response['status'] != 'OK')
+		{
+			return null;
+		}
+		$events = $response['voucher_events'];
+		$applies = empty($events[0]) || in_array($event_id, (array) $events);
+		if (!$applies)
+		{
+			return null;
+		}
+		return array(
+			'voucher_code' => $response['voucher_code'],
+			'voucher_type' => $response['voucher_type'],
+			'voucher_apply' => $response['voucher_apply'],
+			'voucher_discount' => $response['voucher_discount'],
+			'voucher_events' => empty($events[0]) ? 'all' : $events
+		);
+	}
+
+	/**
 	 * Computes the discount amount for a booking (event-scoped).
 	 * Percent: X% of the subtotal (apply "each" and "total" are equivalent).
 	 * Amount + "each ticket": the fixed amount off PER TICKET (unit quantity),
