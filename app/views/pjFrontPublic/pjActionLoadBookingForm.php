@@ -77,11 +77,6 @@ if (isset($tpl['status']) && $tpl['status'] == 'IP_BLOCKED') {
 												<?php
 												$max = intval($v['available']) - intval($v['cnt_booked']);
 												$max = (int) $max < 1 ? 0 : $max;
-												$o_max_tickets = isset($tpl['option_arr']['o_max_tickets']) ? (int) $tpl['option_arr']['o_max_tickets'] : 0;
-												if ($o_max_tickets > 0 && $max > $o_max_tickets)
-												{
-													$max = $o_max_tickets; // global per-booking ticket limit
-												}
 												foreach (range(0, $max) as $i)
 												{
 													if ($controller->_post->check('price_' . $v['id']) && $controller->_post->toInt('price_' . $v['id']) == $i)
@@ -103,8 +98,6 @@ if (isset($tpl['status']) && $tpl['status'] == 'IP_BLOCKED') {
 								{
 									?>
 									<input type="hidden" id="pjEbcTicketValidate_<?php echo $index;?>" name="validate_ticket" class="required" value="" data-msg-required="<?php echo pjSanitize::html($front_error['min']);?>" />
-									<input type="hidden" id="pjEbcMaxTickets_<?php echo $index;?>" value="<?php echo isset($tpl['option_arr']['o_max_tickets']) ? (int) $tpl['option_arr']['o_max_tickets'] : 0; ?>" data-msg="<?php echo pjSanitize::html(__('front_ebc_max_tickets', true)); ?>" />
-									<label id="pjEbcMaxTicketsMsg_<?php echo $index;?>" class="pjEbcError" style="display: none;"></label>
 									<?php
 								} 
 								?>

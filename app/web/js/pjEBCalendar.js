@@ -287,37 +287,17 @@
 				}
 				return false;
 			}).on("change.ebc", ".pjEbcPriceSelector", function (e) {
-				var idx = self.opts.index;
-				var $maxEl = pjQ.$('#pjEbcMaxTickets_' + idx);
-				var maxT = parseInt($maxEl.val(), 10) || 0;
-				var $maxMsg = pjQ.$('#pjEbcMaxTicketsMsg_' + idx);
-				var sumAll = function () {
-					var t = 0;
-					pjQ.$( ".pjEbcPriceSelector" ).each(function () { t += parseInt(pjQ.$(this).val(), 10) || 0; });
-					return t;
-				};
-				var ticket_cnt = sumAll();
-				// Global per-booking ticket limit: keep the total within maxT by
-				// clamping the selector that was just changed.
-				if (maxT > 0 && ticket_cnt > maxT)
-				{
-					var others = ticket_cnt - (parseInt(pjQ.$(this).val(), 10) || 0);
-					var allowed = maxT - others;
-					if (allowed < 0) { allowed = 0; }
-					pjQ.$(this).val(allowed);
-					ticket_cnt = sumAll();
-					if ($maxMsg.length) { $maxMsg.html(($maxEl.data('msg') || '').toString().replace('{X}', maxT)).show(); }
-				}
-				else if ($maxMsg.length)
-				{
-					$maxMsg.hide();
-				}
+				var ticket_cnt = 0;
+				pjQ.$( ".pjEbcPriceSelector" ).each(function( index ) {
+					var cnt = pjQ.$(this).val();
+					ticket_cnt += parseInt(cnt, 10);
+				});
 				if(ticket_cnt == 0)
 				{
-					pjQ.$('#pjEbcTicketValidate_' + idx).val("");
+					pjQ.$('#pjEbcTicketValidate_' + self.opts.index).val("");
 				}else{
 					var rand = Math.ceil(Math.random() * 999999);
-					pjQ.$('#pjEbcTicketValidate_' + idx).val(rand).valid();
+					pjQ.$('#pjEbcTicketValidate_' + self.opts.index).val(rand).valid();
 				}
 				self.calPrices(1);
 			}).on("click.ebc", ".pjEbcApplyCode", function (e) {
