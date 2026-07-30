@@ -213,6 +213,7 @@ public function pjActionCaptcha()
 		$event_id = $this->_post->toInt('event_id');
 	
 		$available = true;
+		$total_tickets = 0;
 		$price_arr = pjPriceModel::factory()
 			->select("t1.*, (SELECT SUM(cnt) FROM `" .pjBookingDetailModel::factory()->getTable(). "` as `TBD` WHERE `TBD`.price_id = t1.id AND `TBD`.booking_id IN(SELECT `TB`.id FROM `".pjBookingModel::factory()->getTable()."` as `TB` WHERE `TB`.booking_status='confirmed' OR `TB`.booking_status='pending' )) as cnt_booked")
 			->where('event_id', $event_id)
@@ -225,6 +226,7 @@ public function pjActionCaptcha()
 			{
 				if($this->_post->toInt('price_' . $price_id) > 0)
 				{
+					$total_tickets += $this->_post->toInt('price_' . $price_id);
 					if((intval($v['available']) - (intval($v['cnt_booked']) + $this->_post->toInt('price_' . $price_id))) < 0 )
 					{
 						$available = false;
@@ -236,6 +238,13 @@ public function pjActionCaptcha()
 		if($available == false)
 		{
 			pjAppController::jsonResponse(array('code' => 101, 'text' => __('front_unavailable_ticket_msg', true)));
+		}
+
+		// Global per-booking ticket limit (0 = unlimited). Authoritative server-side check.
+		$o_max_tickets = isset($this->option_arr['o_max_tickets']) ? (int) $this->option_arr['o_max_tickets'] : 0;
+		if ($o_max_tickets > 0 && $total_tickets > $o_max_tickets)
+		{
+			pjAppController::jsonResponse(array('code' => 102, 'text' => str_replace('{X}', $o_max_tickets, __('front_ebc_max_tickets', true))));
 		}
 	
 		// Re-validate the applied discount code server-side (current event scope +
@@ -961,7 +970,10 @@ public function pjActionCaptcha()
 	    {
 	        return array('status' => 'ERR', 'code' => 147, 'text' => $double_check_error[104]);
 	    }
-	    if($this->option_arr['o_payment_disable'] == 'No')
+	    // Only require a payment method when there is actually something to pay.
+	    // A free booking (subtotal 0) hides the payment selector on the form, so
+	    // demanding one here would reject every $0.00 booking with "Invalid Data!".
+	    if($this->option_arr['o_payment_disable'] == 'No' && (float) (isset($data['total_price']) ? $data['total_price'] : 0) > 0)
 	    {
 	        if(!isset($data['payment_method']))
 	        {
