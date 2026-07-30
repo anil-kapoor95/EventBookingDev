@@ -225,6 +225,12 @@ public function pjActionCaptcha()
 			{
 				if($this->_post->toInt('price_' . $price_id) > 0)
 				{
+					// Per-ticket-type "Max purchase" limit (0 = unlimited). Authoritative.
+					$max_purchase = isset($v['max_purchase']) ? (int) $v['max_purchase'] : 0;
+					if ($max_purchase > 0 && $this->_post->toInt('price_' . $price_id) > $max_purchase)
+					{
+						pjAppController::jsonResponse(array('code' => 102, 'text' => str_replace('{X}', $max_purchase, __('front_ebc_max_purchase', true))));
+					}
 					if((intval($v['available']) - (intval($v['cnt_booked']) + $this->_post->toInt('price_' . $price_id))) < 0 )
 					{
 						$available = false;

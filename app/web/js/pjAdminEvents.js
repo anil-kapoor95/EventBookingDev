@@ -742,6 +742,15 @@ var jQuery = jQuery || $.noConflict();
 		            max: 4294967295
 		        });
 			}
+			if($("#max_purchase_ebc_" + index).length > 0)
+			{
+				$("#max_purchase_ebc_" + index).TouchSpin({
+					verticalbuttons: true,
+		            buttondown_class: 'btn btn-white',
+		            buttonup_class: 'btn btn-white',
+		            max: 4294967295
+		        });
+			}
 		}).on("click", '.pj-remove-price', function(e){
 			if (e && e.preventDefault) {
 				e.preventDefault();

@@ -15,7 +15,8 @@ class pjPriceModel extends pjAppModel
 		array('name' => 'event_id', 'type' => 'int', 'default' => ':NULL'),
 		array('name' => 'recurring', 'type' => 'varchar', 'default' => ':NULL'),
 		array('name' => 'price', 'type' => 'decimal', 'default' => ':NULL'),
-		array('name' => 'available', 'type' => 'int', 'default' => ':NULL')
+		array('name' => 'available', 'type' => 'int', 'default' => ':NULL'),
+		array('name' => 'max_purchase', 'type' => 'int', 'default' => '0')
 	);
 	
 	public $i18n = array('name');
@@ -41,6 +42,7 @@ class pjPriceModel extends pjAppModel
 					$price_data['recurring'] = md5($current_id. $v . PJ_SALT);
 					$price_data['price'] = $post['price'][$v];
 					$price_data['available'] = $post['available'][$v];
+						$price_data['max_purchase'] = isset($post['max_purchase'][$v]) ? (int) $post['max_purchase'][$v] : 0;
 						
 					$price_id = $this->reset()->setAttributes($price_data)->insert()->getInsertId();
 					if ($price_id !== false && (int) $price_id > 0)
@@ -101,6 +103,7 @@ class pjPriceModel extends pjAppModel
 						$price_data['recurring'] = md5($event_id. $v . PJ_SALT);
 						$price_data['price'] = $post['price'][$v];
 						$price_data['available'] = $post['available'][$v];
+						$price_data['max_purchase'] = isset($post['max_purchase'][$v]) ? (int) $post['max_purchase'][$v] : 0;
 						$price_id = $this->reset()->setAttributes($price_data)->insert()->getInsertId();
 						if ($price_id !== false && (int) $price_id > 0)
 						{
@@ -129,6 +132,7 @@ class pjPriceModel extends pjAppModel
 					$price_data['recurring'] = md5($event_id. $v . PJ_SALT);
 					$price_data['price'] = $post['price'][$v];
 					$price_data['available'] = $post['available'][$v];
+						$price_data['max_purchase'] = isset($post['max_purchase'][$v]) ? (int) $post['max_purchase'][$v] : 0;
 					$price_id = $this->reset()->setAttributes($price_data)->insert()->getInsertId();
 					if ($price_id !== false && (int) $price_id > 0)
 					{
@@ -161,6 +165,7 @@ class pjPriceModel extends pjAppModel
 						$price_data = array();
 						$price_data['price'] = $post['price'][$v];
 						$price_data['available'] = $post['available'][$v];
+						$price_data['max_purchase'] = isset($post['max_purchase'][$v]) ? (int) $post['max_purchase'][$v] : 0;
 						$this->reset()->where('id', $rp['id'])->limit(1)->modifyAll($price_data);
 	
 						foreach ($arr_i18n as $locale => $locale_arr)
@@ -191,6 +196,7 @@ class pjPriceModel extends pjAppModel
 					$price_data = array();
 					$price_data['price'] = $post['price'][$v];
 					$price_data['available'] = $post['available'][$v];
+						$price_data['max_purchase'] = isset($post['max_purchase'][$v]) ? (int) $post['max_purchase'][$v] : 0;
 					$this->reset()->where('id', $v)->limit(1)->modifyAll($price_data);
 					foreach ($arr_i18n as $locale => $locale_arr)
 					{

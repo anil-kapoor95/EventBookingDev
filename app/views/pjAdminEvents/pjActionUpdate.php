@@ -186,6 +186,12 @@ $bs = __('booking_statuses', true);
 				</div>
 			</td>
 
+			<td>
+				<div class="form-group">
+					<input value="0" type="text" name="max_purchase[{INDEX}]" id="max_purchase_{INDEX}" />
+				</div>
+			</td>
+
             <td>
                 <div class="m-t-xs text-right">
                     <a href="#" class="btn btn-danger btn-outline btn-sm btn-delete pj-remove-price"><i class="fa fa-trash"></i></a>

@@ -206,6 +206,7 @@
 										<th><?php __('lblType');?></th>
 										<th><?php __('lblPrice');?></th>
 										<th><?php __('lblAvailable');?></th>
+										<th><?php __('lblMaxPurchase');?></th>
 										<th></th>
 									</tr>
 								</thead>
@@ -257,7 +258,13 @@
 														<input class="touchspin3 required" type="text" name="available[<?php echo $index;?>]" id="available_<?php echo $index;?>" value="<?php echo $price['available']; ?>" data-msg-required="<?php __('ebc_field_required');?>" />
 													</div>
 												</td>
-												
+
+												<td>
+													<div class="form-group">
+														<input class="touchspin3" type="text" name="max_purchase[<?php echo $index;?>]" id="max_purchase_<?php echo $index;?>" value="<?php echo isset($price['max_purchase']) ? (int) $price['max_purchase'] : 0; ?>" />
+													</div>
+												</td>
+
 												<td>
 													<?php if($has_bookings == 0 && $k > 0) { ?>
 														<div class="m-t-xs text-right">
@@ -307,7 +314,13 @@
 													<input class="touchspin3 required" value="5" type="text" name="available[<?php echo $index;?>]" id="available_<?php echo $index;?>" data-msg-required="<?php __('ebc_field_required');?>" />
 												</div>
 											</td>
-											
+
+											<td>
+												<div class="form-group">
+													<input class="touchspin3" value="0" type="text" name="max_purchase[<?php echo $index;?>]" id="max_purchase_<?php echo $index;?>" />
+												</div>
+											</td>
+
 											<td>
 												&nbsp;
 											</td>

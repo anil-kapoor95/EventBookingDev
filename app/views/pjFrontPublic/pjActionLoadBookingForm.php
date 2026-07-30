@@ -77,6 +77,11 @@ if (isset($tpl['status']) && $tpl['status'] == 'IP_BLOCKED') {
 												<?php
 												$max = intval($v['available']) - intval($v['cnt_booked']);
 												$max = (int) $max < 1 ? 0 : $max;
+												$max_purchase = isset($v['max_purchase']) ? (int) $v['max_purchase'] : 0;
+												if ($max_purchase > 0 && $max > $max_purchase)
+												{
+													$max = $max_purchase; // per-ticket-type max purchase limit
+												}
 												foreach (range(0, $max) as $i)
 												{
 													if ($controller->_post->check('price_' . $v['id']) && $controller->_post->toInt('price_' . $v['id']) == $i)
