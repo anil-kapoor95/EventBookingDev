@@ -809,13 +809,33 @@
 				$frmBookingForm.find("select[name='payment_method']").removeClass('required');
 			}else{
 				discount = self.calDiscount(price);
-				tax = parseFloat(self.opts.tax) * price / 100;
-				total_price = price - discount + tax;
+				// Tax / booking fee applies to the amount actually payable (after
+				// the discount), so a 100% discount => $0 payable => no fee.
+				var taxable = price - discount;
+				if(taxable < 0)
+				{
+					taxable = 0;
+				}
+				// Guard the rate parse: when the event has no tax/deposit
+				// configured, opts.tax/opts.deposit can be empty and parseFloat
+				// would return NaN, which cascades into "$NaN" on every line.
+				var taxRate = parseFloat(self.opts.tax);
+				if(isNaN(taxRate))
+				{
+					taxRate = 0;
+				}
+				var depositRate = parseFloat(self.opts.deposit);
+				if(isNaN(depositRate))
+				{
+					depositRate = 0;
+				}
+				tax = taxRate * taxable / 100;
+				total_price = taxable + tax;
 				if(total_price < 0)
 				{
 					total_price = 0;
 				}
-				deposit = parseFloat(self.opts.deposit) * total_price / 100;
+				deposit = depositRate * total_price / 100;
 				$price_label.html(self.formatCurrency(price, self.opts.currency));
 				$tax_label.html(self.formatCurrency(tax, self.opts.currency));
 				$total_price_label.html(self.formatCurrency(total_price, self.opts.currency));
